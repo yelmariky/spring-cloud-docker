@@ -1,0 +1,7 @@
+---
+applications:
+- name: microservices-config
+  host: microservices-config-${random-word}
+  memory: 512M
+  instances: 1
+  path: target/microservices-config-1.0.0.jar

@@ -1,0 +1,45 @@
+discovery:
+  image: lmsys/microservices-eureka-server
+  ports:
+   - "8761:8761"
+configserver:
+  image: lmsys/microservices-config
+  ports:
+   - "8888:8888"
+  links:
+   - discovery
+compte:
+  image: lmsys/microservices-compte
+  links:
+   - discovery
+   - configserver
+message:
+  image: lmsys/microservices-messages
+  links:
+   - discovery
+   - configserver
+gateway:
+  image: lmsys/microservices-api-gateway
+  ports:
+   - "10000:10000"
+  links:
+   - discovery
+   - configserver
+   - compte
+   - message
+hystrix:
+  image: lmsys/hystrix-dashboard
+  ports:
+   - "7979:7979"
+  links:
+   - gateway
+   - discovery
+
+
+frontui:
+  image: lmsys/microservices-client
+  ports:
+     - "9999:9999"
+  links:
+   - discovery
+   - configserver
