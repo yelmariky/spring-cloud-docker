@@ -2,13 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+<!-- 	<groupId>fr.lmsys</groupId> -->
 	<artifactId>microservices-eureka-server</artifactId>
+<!-- 	<version>1.0.0</version> -->
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>fr.lmsys</groupId>
 		<artifactId>microservices-parent</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../</relativePath>
 	</parent>
 
 	<dependencies>
@@ -17,13 +19,59 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ec2 -->
-<dependency>
-    <groupId>com.amazonaws</groupId>
-    <artifactId>aws-java-sdk-ec2</artifactId>
+		<dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-core</artifactId>
+      <version>1.9.3</version>
+      <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-ec2</artifactId>
+      <version>1.9.3</version>
+      <scope>runtime</scope>
+    </dependency>
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ec2 -->
+<!-- <dependency> -->
+<!--     <groupId>com.amazonaws</groupId> -->
+<!--     <artifactId>aws-java-sdk-ec2</artifactId> -->
+<!--     </dependency> -->
 		
 	</dependencies>
+	
+	<profiles>
+<profile>
+	<id>docker</id>
+	<build>
+	<plugins>
+		 <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+	</plugins>
+	</build>
+</profile>
+</profiles>
 
 	<!-- <dependency> -->
 	<!-- <groupId>org.springframework.boot</groupId> -->
@@ -43,32 +91,9 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>${docker.plugin.version}</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
+
 
 
 </project>
