@@ -1,11 +1,11 @@
 spring:
   application:
-    name: config-server
-  spring:
-  profiles.active: prod
+    name: compte-service
+  profiles:
+    active: prod
 
 server:
-  port: 8081
+  port: 8087
 eureka:
   client:
     serviceUrl:

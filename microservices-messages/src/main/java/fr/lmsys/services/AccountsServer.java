@@ -14,9 +14,6 @@ public class AccountsServer {
 	private static final Logger log = LoggerFactory.getLogger(AccountsServer.class);
 
 		 public static void main(String[] args) {
-			 // Will configure using accounts-server.yml
-		        System.setProperty("spring.config.name", "deuxieme-service");
-
 		        SpringApplication.run(AccountsServer.class, args);
 
 }
