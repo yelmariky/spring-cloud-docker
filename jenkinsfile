@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+	environment {
+		CC=' clang' 
+	
+	}
+	stages { 
+       stage('Example Build') {
+       steps {
+          echo 'hello world'
+           
+       }
+
+       }
+       stage('Example Build2') {
+       steps {
+          echo 'hello world2'
+           
+       }
+
+       }
+
+    }
+	
+	
+}
