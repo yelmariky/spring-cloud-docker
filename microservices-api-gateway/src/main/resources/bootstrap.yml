@@ -4,5 +4,10 @@ spring:
   cloud:
     config:
       uri: http://configserver:8888
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
 encrypt:
   failOnError: false
+
+  
